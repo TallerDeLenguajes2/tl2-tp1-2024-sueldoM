@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\P0L0\\Desktop\\Archivos word\\15-Taller de Lenguajes 2\\TP1\\tl2-tp1-2024-sueldoM\\TP1\\TP1.csproj": {}
+    "C:\\Users\\P0L0\\Desktop\\Archivos word\\15-Taller de Lenguajes 2\\TP1\\tl2-tp1-2024-sueldoM\\TP1\\TP1.csproj": {}
   },
   "projects": {
-    "c:\\Users\\P0L0\\Desktop\\Archivos word\\15-Taller de Lenguajes 2\\TP1\\tl2-tp1-2024-sueldoM\\TP1\\TP1.csproj": {
+    "C:\\Users\\P0L0\\Desktop\\Archivos word\\15-Taller de Lenguajes 2\\TP1\\tl2-tp1-2024-sueldoM\\TP1\\TP1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\P0L0\\Desktop\\Archivos word\\15-Taller de Lenguajes 2\\TP1\\tl2-tp1-2024-sueldoM\\TP1\\TP1.csproj",
+        "projectUniqueName": "C:\\Users\\P0L0\\Desktop\\Archivos word\\15-Taller de Lenguajes 2\\TP1\\tl2-tp1-2024-sueldoM\\TP1\\TP1.csproj",
         "projectName": "TP1",
-        "projectPath": "c:\\Users\\P0L0\\Desktop\\Archivos word\\15-Taller de Lenguajes 2\\TP1\\tl2-tp1-2024-sueldoM\\TP1\\TP1.csproj",
+        "projectPath": "C:\\Users\\P0L0\\Desktop\\Archivos word\\15-Taller de Lenguajes 2\\TP1\\tl2-tp1-2024-sueldoM\\TP1\\TP1.csproj",
         "packagesPath": "C:\\Users\\P0L0\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\P0L0\\Desktop\\Archivos word\\15-Taller de Lenguajes 2\\TP1\\tl2-tp1-2024-sueldoM\\TP1\\obj\\",
+        "outputPath": "C:\\Users\\P0L0\\Desktop\\Archivos word\\15-Taller de Lenguajes 2\\TP1\\tl2-tp1-2024-sueldoM\\TP1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\P0L0\\AppData\\Roaming\\NuGet\\NuGet.Config"

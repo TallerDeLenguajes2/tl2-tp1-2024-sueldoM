@@ -1,10 +1,10 @@
 using System.Text;
 
 public class Cadete{
-    public int ?Id {get; set;}
-    public string ?Nombre {get; set;}
-    public string ?Direccion {get; set;}
-    public List<Pedido> ListadodePedidos {get; set;}
+    public int ?Id {get; private set;}
+    public string ?Nombre {get; private set;}
+    public string ?Direccion {get; private set;}
+    public List<Pedido> ListadodePedidos {get; private set;}
 
     public Cadete(){
         ListadodePedidos = new List<Pedido>();

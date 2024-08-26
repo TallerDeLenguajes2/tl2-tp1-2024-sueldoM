@@ -1,8 +1,8 @@
 public class Pedido{
-    public int ?Nro {get; set;}
-    public string ?Obs {get; set;}
-    public Cliente ?Cliente{get; set;}
-    public string ?Estado {get; set;}
+    public int ?Nro {get; private set;}
+    public string ?Obs {get; private set;}
+    public Cliente ?Cliente{get; private set;}
+    public string ?Estado {get; private set;}
 
     public string ?DireccionCliente(){
         return Cliente?.Direccion;
