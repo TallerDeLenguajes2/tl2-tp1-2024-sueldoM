@@ -1,13 +1,26 @@
 public class Cliente {
-    public string ?Nombre {get;private set;}
-    public string ?Direccion {get; private set;}
-    public string ?Telefono {get; private set;}
-    public string ?DatosReferenciaDireccion{get;private set;}
+    private string nombre ;
+    private string direccion ;
+    private string telefono ;
+    private string datosReferenciaDireccion;
 
     public Cliente (string nombre, string direccion, string telefono, string datosreferenciadireccion){
-        Nombre = nombre;
-        Direccion = direccion;
-        Telefono = telefono;
-        DatosReferenciaDireccion = datosreferenciadireccion;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.datosReferenciaDireccion = datosreferenciadireccion;
+    }
+
+    public string verNombre(){
+        return nombre;
+    }
+    public string verDireccion(){
+        return direccion;
+    }
+    public string verTelefono(){
+        return telefono;
+    }
+    public string verDatosReferenciaDireccion(){
+        return datosReferenciaDireccion;
     }
 }

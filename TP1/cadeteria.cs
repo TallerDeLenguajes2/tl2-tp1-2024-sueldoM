@@ -1,37 +1,22 @@
 public class Cadeteria{
-    public string ?Nombre {get; private set;}
-    public string ?Telefono {get; private set;}
-    public List<Cadete> ListadodeCadetes {get; private set;}
+    private string ?nombre;
+    private string ?telefono;
+    private List<Cadete> listadodeCadetes;
 
     private Cadeteria(){
-        ListadodeCadetes = new List<Cadete>();
+        listadodeCadetes = new List<Cadete>();
     }
 
     public void AgregarCadete(Cadete cadete){
-        ListadodeCadetes.Add(cadete);
+        listadodeCadetes.Add(cadete);
     }
 
     public void removerCadete(int id){
-        var cadete = ListadodeCadetes.FirstOrDefault(c => c.Id == id);
+        var cadete = listadodeCadetes.FirstOrDefault(c => c.VerId() == id);
         if (cadete != null)
         {
-            ListadodeCadetes.Remove(cadete);
+            listadodeCadetes.Remove(cadete);
         }
     }
 
-    public Cadete BuscarCadete(int id){
-        return ListadodeCadetes.FirstOrDefault(c => c.Id == id);
-    }
-
-    public void reasignarPedido(int nroPedido, int idCadeteOriginal, int idCadeteNuevo){
-        var cadeteOriginal = BuscarCadete(idCadeteOriginal);
-        var cadeteNuevo = BuscarCadete(idCadeteNuevo);
-        var pedido = cadeteOriginal?.ListadodePedidos.FirstOrDefault(p => p.Nro == nroPedido);
-
-        if (pedido != null && cadeteNuevo != null){
-            cadeteOriginal.reasignarPedido(pedido, cadeteNuevo);
-        }
-    }
-
-    
 }

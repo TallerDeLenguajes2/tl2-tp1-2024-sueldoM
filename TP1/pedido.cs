@@ -12,11 +12,11 @@ public class Pedido{
     }
 
     public string ?DireccionCliente(){
-        return Cliente?.Direccion;
+        return Cliente?.verDireccion();
     }
 
     public string DatosCliente(){
-        return $"Nombre: {Cliente?.Nombre}, Direccion: {Cliente?.Direccion}, Telefono: {Cliente?.Telefono}";
+        return $"Nombre: {Cliente?.verNombre()}, Direccion: {Cliente?.verDireccion()}, Telefono: {Cliente?.verTelefono()}";
     }
 
     public void cambiarEstado(string nuevoEstado){
