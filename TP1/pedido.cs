@@ -1,25 +1,25 @@
 public class Pedido{
-    public int ?Nro {get; private set;}
-    public string ?Obs {get; private set;}
-    public Cliente ?Cliente{get; private set;}
-    public string ?Estado {get; private set;}
+    private int ?nro;
+    private string ?obs;
+    private Cliente ?cliente;
+    private string ?estado;
 
-    public Pedido(int nro, string observacion, Cliente cliente){
-        Nro = nro;
-        Obs = observacion;
-        Cliente = cliente;
-        Estado = "Pendiente";
+    public Pedido(int n, string observacion, string nombre, string direccion, string telefono, string datosReferenciaDireccion){
+        nro = n;
+        obs = observacion;
+        cliente =  new Cliente(nombre, direccion, telefono, datosReferenciaDireccion);
+        estado = "Pendiente";
     }
 
     public string ?DireccionCliente(){
-        return Cliente?.verDireccion();
+        return cliente?.verDireccion();
     }
 
     public string DatosCliente(){
-        return $"Nombre: {Cliente?.verNombre()}, Direccion: {Cliente?.verDireccion()}, Telefono: {Cliente?.verTelefono()}";
+        return $"Nombre: {cliente?.verNombre()}, Direccion: {cliente?.verDireccion()}, Telefono: {cliente?.verTelefono()}";
     }
 
     public void cambiarEstado(string nuevoEstado){
-        Estado = nuevoEstado;
+        estado = nuevoEstado;
     }
 }
