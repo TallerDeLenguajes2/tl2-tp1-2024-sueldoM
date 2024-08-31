@@ -1,9 +1,9 @@
 public class Cadeteria{
     private string ?nombre;
     private string ?telefono;
-    private List<Cadete> listadodeCadetes;
+    public List<Cadete> listadodeCadetes;
 
-    private Cadeteria(){
+    public Cadeteria(){
         listadodeCadetes = new List<Cadete>();
     }
 

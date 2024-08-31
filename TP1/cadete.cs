@@ -1,5 +1,4 @@
-using System.Data.Common;
-using System.Text;
+using System;
 
 public class Cadete{
 
@@ -38,4 +37,14 @@ public class Cadete{
     public int VerId(){
         return id;
     }
+    public string? VerNombre(){
+        return nombre;
+    }
+    public string? VerDireccion(){
+        return direccion;
+    }
+    public string? VerTelefono(){
+        return telefono;
+    }
+
 }
