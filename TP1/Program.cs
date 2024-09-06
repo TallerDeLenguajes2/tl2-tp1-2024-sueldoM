@@ -94,10 +94,10 @@ public class Program
                     case 4:
                         Console.WriteLine("Reasignar pedido a otro cadete:");
                         Console.Write("Ingrese el ID del pedido: ");
-                        string idPedido = Console.ReadLine();
+                        string? idPedido = Console.ReadLine();
                         if (int.TryParse(idPedido, out int idPed))
                         {
-                            Pedido pedidoAReasignar = cadeteria.listadoDePedidos.FirstOrDefault(p => p.VerId() == idPed);
+                            Pedido? pedidoAReasignar = cadeteria?.listadoDePedidos?.FirstOrDefault(p => p.VerId() == idPed);
                             if (pedidoAReasignar != null)
                             {
                                 Console.Write("Ingrese el ID del nuevo cadete: ");
@@ -132,7 +132,7 @@ public class Program
                             string? tarifa = Console.ReadLine();
                             if (decimal.TryParse(tarifa, out decimal tarifaPorPedido))
                             {
-                                decimal jornal = cadeteria.JornalACobrar(idCadeteInt, tarifaPorPedido);
+                                decimal? jornal = cadeteria.JornalACobrar(idCadeteInt, tarifaPorPedido);
                                 Console.WriteLine($"El jornal a cobrar para el cadete con ID {idCadeteInt} es: {jornal:C}");
                             }
                             else
