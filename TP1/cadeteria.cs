@@ -5,8 +5,8 @@ public class Cadeteria
 {
     private string nombre;
     private string telefono;
-    private List<Cadete> listadoDeCadetes;
-    private List<Pedido> listadoDePedidos; // Nuevo listado para gestionar los pedidos
+    public List<Cadete> listadoDeCadetes;
+    public List<Pedido> listadoDePedidos; // Nuevo listado para gestionar los pedidos
 
     public Cadeteria(string nombre, string telefono)
     {

@@ -97,7 +97,7 @@ public class Program
                         string idPedido = Console.ReadLine();
                         if (int.TryParse(idPedido, out int idPed))
                         {
-                            Pedido pedidoAReasignar = cadeteria.ListadoDePedidos.FirstOrDefault(p => p.VerId() == idPed);
+                            Pedido pedidoAReasignar = cadeteria.listadoDePedidos.FirstOrDefault(p => p.VerId() == idPed);
                             if (pedidoAReasignar != null)
                             {
                                 Console.Write("Ingrese el ID del nuevo cadete: ");
