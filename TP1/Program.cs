@@ -1,28 +1,34 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.IO;
 
-class Program
+public class Program
 {
     static void Main(string[] args)
     {
-        List<Cadete> cadetes = LeerCadetesDesdeCSV("./cadete.csv");
-        Cadeteria cadeteria = LeerCadeteriaDesdeCSV("./cadeteria.csv", cadetes);
+        // Configura la ruta de los archivos CSV
+        string cadetePath = Path.Combine(Directory.GetCurrentDirectory(), "net8.0", "cadete.csv");
+        string cadeteriaPath = Path.Combine(Directory.GetCurrentDirectory(), "net8.0", "cadeteria.csv");
+
+        // Cargar datos desde los archivos CSV
+        List<Cadete> cadetes = LeerCadetesDesdeCSV(cadetePath);
+        Cadeteria cadeteria = LeerCadeteriaDesdeCSV(cadeteriaPath, cadetes);
+
         int n = 0;
         int x = 0;
         int d;
-        Pedido pedido = null;
+        Pedido pedido = null; // Declarar la variable fuera del switch
 
-        while (x <10)
+        while (x < 10)
         {
-            Console.WriteLine("-----Menu----");
+            Console.WriteLine("----Menú----");
             Console.WriteLine("1. Dar de alta pedidos");
             Console.WriteLine("2. Asignarlos a un Cadete");
             Console.WriteLine("3. Cambiar estado de un pedido");
             Console.WriteLine("4. Reasignar pedido a otro Cadete");
-            Console.WriteLine("5. Salir");
+            Console.WriteLine("5. Calcular jornal a cobrar");
+            Console.WriteLine("6. Guardar y Salir");
             string? input = Console.ReadLine();
 
             if (int.TryParse(input, out x))
@@ -30,124 +36,164 @@ class Program
                 switch (x)
                 {
                     case 1:
-                        Console.WriteLine("Crear Pedido:");
-                        Console.Write("Observacion: ");
+                        Console.WriteLine("Crear nuevo pedido:");
+                        Console.Write("Observación: ");
                         string? observacion = Console.ReadLine();
-                        Console.Write("Nombre del Cliente: ");
+                        Console.Write("Nombre del cliente: ");
                         string? nombre = Console.ReadLine();
-                        Console.Write("Direccion del Cliente: ");
+                        Console.Write("Dirección del cliente: ");
                         string? direccion = Console.ReadLine();
-                        Console.Write("Telefono del Cliente: ");
+                        Console.Write("Teléfono del cliente: ");
                         string? telefono = Console.ReadLine();
-                        Console.Write("Datos de referencia de direccion: ");
+                        Console.Write("Datos de referencia de dirección: ");
                         string? datosReferenciaDireccion = Console.ReadLine();
                         Cliente? cliente = new Cliente(nombre, direccion, telefono, datosReferenciaDireccion);
-                        pedido = new Pedido(n, observacion, nombre, direccion, telefono, datosReferenciaDireccion);
+                        pedido = new Pedido(n, observacion, cliente);
+                        cadeteria.AgregarPedido(pedido);
                         n++;
-                        Console.WriteLine($"Pedido {n} creado con exito...");
+                        Console.WriteLine($"Pedido {n} creado con éxito.");
                         break;
 
                     case 2:
-                        Console.WriteLine("Que cadete tomara el pedido:");
-                        Console.Write("Ingrese el ID, del cadete: ");
+                        if (pedido == null)
+                        {
+                            Console.WriteLine("No hay ningún pedido creado para asignar.");
+                            break;
+                        }
+                        Console.WriteLine("¿Qué cadete tomará el pedido?");
+                        Console.Write("Ingrese el ID del cadete: ");
                         string? id = Console.ReadLine();
                         if (int.TryParse(id, out d))
+                        {
+                            Cadete? cadete = cadetes.FirstOrDefault(c => c.VerId() == d);
+                            if (cadete != null)
                             {
-                                Cadete? cadete = cadeteria.listadodeCadetes.FirstOrDefault(c => c.VerId() == d);
-                                if (cadete != null)
-                                {
-                                    cadete.AsignarPedido(pedido);
-                                    Console.WriteLine($"Pedido asignado al cadete con ID {d}");
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Cadete no encontrado");
-                                }
+                                pedido.AsignarCadete(cadete);
+                                Console.WriteLine($"Pedido asignado al cadete con ID {d}.");
                             }
+                            else
+                            {
+                                Console.WriteLine("Cadete no encontrado.");
+                            }
+                        }
                         break;
 
                     case 3:
-                        Console.WriteLine("Cambiar estado de un pedido: ");
+                        if (pedido == null)
+                        {
+                            Console.WriteLine("No hay ningún pedido creado para cambiar su estado.");
+                            break;
+                        }
+                        Console.WriteLine("Cambiar estado de un pedido:");
                         Console.Write("Ingrese el nuevo estado: ");
                         string? nuevoEstado = Console.ReadLine();
-                        pedido.cambiarEstado(nuevoEstado);
-                        Console.WriteLine("Estado del pedido ha cambiado...");
+                        pedido.CambiarEstado(nuevoEstado);
+                        Console.WriteLine("Estado del pedido cambiado con éxito.");
                         break;
 
                     case 4:
-                        Console.WriteLine("Reasignar pedido a otro cadete: ");
-                        Console.Write("Ingrese el ID del cadete actual: ");
-                        string? idActual = Console.ReadLine();
-                        if (int.TryParse(idActual, out int idCadeteActual))
+                        Console.WriteLine("Reasignar pedido a otro cadete:");
+                        Console.Write("Ingrese el ID del pedido: ");
+                        string idPedido = Console.ReadLine();
+                        if (int.TryParse(idPedido, out int idPed))
                         {
-                            Cadete cadeteActual = cadetes.FirstOrDefault(c => c.VerId() == idCadeteActual);
-                            if(cadeteActual != null)
+                            Pedido pedidoAReasignar = cadeteria.ListadoDePedidos.FirstOrDefault(p => p.VerId() == idPed);
+                            if (pedidoAReasignar != null)
                             {
-                                Console.Write("Ingrese el ID del nuevo Cadete: ");
+                                Console.Write("Ingrese el ID del nuevo cadete: ");
                                 string? idNuevo = Console.ReadLine();
-                                if(int.TryParse(idNuevo, out int idCadeteNuevo))
+                                if (int.TryParse(idNuevo, out int idCadeteNuevo))
                                 {
-                                    Cadete nuevoCadete = cadetes.FirstOrDefault(c => c.VerId() == idCadeteNuevo);
+                                    Cadete? nuevoCadete = cadetes.FirstOrDefault(c => c.VerId() == idCadeteNuevo);
                                     if (nuevoCadete != null)
                                     {
-                                        cadeteActual.reasignarPedido(pedido, nuevoCadete);
-                                        Console.WriteLine("Pedido reasignado con exito...");
+                                        pedidoAReasignar.AsignarCadete(nuevoCadete);
+                                        Console.WriteLine("Pedido reasignado con éxito.");
                                     }
                                     else
                                     {
-                                        Console.WriteLine("No se encontro el nuevo cadete...");
+                                        Console.WriteLine("Nuevo cadete no encontrado.");
                                     }
                                 }
                             }
                             else
                             {
-                                Console.WriteLine("No se encontro al cadete actual...");
+                                Console.WriteLine("Pedido no encontrado.");
                             }
-                            
                         }
                         break;
-                    
+
                     case 5:
-                        Console.WriteLine("Guardando datos....");
-                        Console.WriteLine("Saliendo...");
-                        GuardarCadeteEnCSV("cadete.csv", cadetes);
-                        GuardarCadeteriaenCSV("cadeteria.csv", cadeteria);
+                        Console.Write("Ingrese el ID del cadete para calcular el jornal: ");
+                        string? idCadete = Console.ReadLine();
+                        if (int.TryParse(idCadete, out int idCadeteInt))
+                        {
+                            Console.Write("Ingrese la tarifa por pedido: ");
+                            string? tarifa = Console.ReadLine();
+                            if (decimal.TryParse(tarifa, out decimal tarifaPorPedido))
+                            {
+                                decimal jornal = cadeteria.JornalACobrar(idCadeteInt, tarifaPorPedido);
+                                Console.WriteLine($"El jornal a cobrar para el cadete con ID {idCadeteInt} es: {jornal:C}");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Tarifa no válida.");
+                            }
+                        }
+                        break;
+
+                    case 6:
+                        Console.WriteLine("Guardando datos y saliendo...");
+                        GuardarCadetesEnCSV(cadetePath, cadetes);
+                        GuardarCadeteriaEnCSV(cadeteriaPath, cadeteria);
                         return;
 
                     default:
-                        Console.WriteLine("Opcion invalida, por favor vuelva a intentar...");
+                        Console.WriteLine("Opción no válida, intente nuevamente.");
                         break;
                 }
             }
             else
             {
-                Console.WriteLine("Entrada no valida, intente nuevamente....");
+                Console.WriteLine("Entrada no válida, intente nuevamente.");
             }
         }
-
-
     }
 
     static List<Cadete> LeerCadetesDesdeCSV(string path)
     {
         List<Cadete> cadetes = new List<Cadete>();
-        var lines = File.ReadAllLines(path);
 
-        foreach(var line in lines)
+        if (!File.Exists(path))
         {
-            var values = line.Split(',');
-            int id = int.Parse(values[0]);
-            string nombre = values[1];
-            string direccion = values[2];
-            string telefono = values[3];
-            cadetes.Add(new Cadete(id, nombre, direccion, telefono));
+            Console.WriteLine($"El archivo {path} no se encuentra.");
+            return cadetes;
         }
+
+        try
+        {
+            var lines = File.ReadAllLines(path);
+            foreach (var line in lines)
+            {
+                var values = line.Split(',');
+                int id = int.Parse(values[0]);
+                string nombre = values[1];
+                string direccion = values[2];
+                string telefono = values[3];
+                cadetes.Add(new Cadete(id, nombre, direccion, telefono));
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Se produjo una excepción al leer el archivo: {ex.Message}");
+        }
+
         return cadetes;
     }
 
     static Cadeteria LeerCadeteriaDesdeCSV(string path, List<Cadete> cadetes)
     {
-        Cadeteria cadeteria = new Cadeteria();
+        Cadeteria cadeteria = new Cadeteria("Nombre de Cadeteria", "Teléfono de Cadeteria");
         foreach (var cadete in cadetes)
         {
             cadeteria.AgregarCadete(cadete);
@@ -155,7 +201,7 @@ class Program
         return cadeteria;
     }
 
-    static void GuardarCadeteEnCSV(string path, List<Cadete> cadetes)
+    static void GuardarCadetesEnCSV(string path, List<Cadete> cadetes)
     {
         List<string> lines = new List<string>();
 
@@ -163,11 +209,12 @@ class Program
         {
             lines.Add($"{cadete.VerId()},{cadete.VerNombre()},{cadete.VerDireccion()},{cadete.VerTelefono()}");
         }
+
         File.WriteAllLines(path, lines);
     }
 
-    static void GuardarCadeteriaenCSV(string path, Cadeteria cadeteria)
+    static void GuardarCadeteriaEnCSV(string path, Cadeteria cadeteria)
     {
-
+        // Para guardar la cadeteria, puedes extender este método según las necesidades específicas.
     }
 }
