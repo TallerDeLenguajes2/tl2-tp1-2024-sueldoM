@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dFLzIcM0ArQ=",
+  "dgSpecHash": "lMVntYOfH1U=",
   "success": true,
-  "projectFilePath": "C:\\Users\\P0L0\\Desktop\\Archivos word\\15-Taller de Lenguajes 2\\TP1\\tl2-tp1-2024-sueldoM\\TP1\\TP1.csproj",
+  "projectFilePath": "c:\\Users\\P0L0\\Desktop\\Archivos word\\15-Taller de Lenguajes 2\\TP1\\tl2-tp1-2024-sueldoM\\TP1\\TP1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\P0L0\\.nuget\\packages\\csvhelper\\30.0.0\\csvhelper.30.0.0.nupkg.sha512"
   ],

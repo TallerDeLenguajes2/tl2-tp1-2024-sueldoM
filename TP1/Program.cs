@@ -5,15 +5,34 @@ using System.IO;
 
 public class Program
 {
+    static AccesoADatos? accesoADatos;
     static void Main(string[] args)
     {
         // Configura la ruta de los archivos CSV
-        string cadetePath = Path.Combine(Directory.GetCurrentDirectory(), "net8.0", "cadete.csv");
-        string cadeteriaPath = Path.Combine(Directory.GetCurrentDirectory(), "net8.0", "cadeteria.csv");
+        string cadetePath = Path.Combine(Directory.GetCurrentDirectory(), "cadete.csv");
+        string cadeteriaPath = Path.Combine(Directory.GetCurrentDirectory(), "cadeteria.csv");
+
+        Console.WriteLine("Seleccione el tipo de acceso a datos:");
+        Console.WriteLine("1. CSV");
+        Console.WriteLine("2. JSON");
+        string tipoAcceso = Console.ReadLine();
+
+        switch (tipoAcceso)
+        {
+            case "1":
+                accesoADatos = new AccesoCSV(cadetePath, cadeteriaPath);
+                break;
+            case "2":
+                accesoADatos = new AccesoJSON(cadetePath, cadeteriaPath);
+                break;
+            default:
+                Console.WriteLine("Opción no válida.");
+                return;
+        }
 
         // Cargar datos desde los archivos CSV
-        List<Cadete> cadetes = LeerCadetesDesdeCSV(cadetePath);
-        Cadeteria cadeteria = LeerCadeteriaDesdeCSV(cadeteriaPath, cadetes);
+        var cadetes = accesoADatos.LeerCadetes();
+        var cadeteria = accesoADatos.LeerCadeteria();
 
         int n = 0;
         int x = 0;
@@ -29,6 +48,9 @@ public class Program
             Console.WriteLine("4. Reasignar pedido a otro Cadete");
             Console.WriteLine("5. Calcular jornal a cobrar");
             Console.WriteLine("6. Guardar y Salir");
+            Console.WriteLine("7. Mostrar Cadetes.csv");
+            Console.WriteLine("8. Mostrar Cadeteria.csv");
+
             string? input = Console.ReadLine();
 
             if (int.TryParse(input, out x))
@@ -147,6 +169,24 @@ public class Program
                         GuardarCadetesEnCSV(cadetePath, cadetes);
                         GuardarCadeteriaEnCSV(cadeteriaPath, cadeteria);
                         return;
+                    case 7:
+                        Console.WriteLine("Lista de cadetes:");
+                        foreach (var cadete in cadetes)
+                        {
+                            Console.WriteLine($"ID: {cadete.VerId()}, Nombre: {cadete.VerNombre()}, Dirección: {cadete.VerDireccion()}, Teléfono: {cadete.VerTelefono()}");
+                        }
+                        break;
+                    case 8:
+                        Console.WriteLine("Información de Cadeteria:");
+                        if (cadeteria != null)
+                        {
+                            Console.WriteLine($"Nombre: {cadeteria.VerNombre()}, Teléfono: {cadeteria.VerTelefono()}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("No se pudo cargar la información de la Cadeteria.");
+                        }
+                        break;
 
                     default:
                         Console.WriteLine("Opción no válida, intente nuevamente.");
@@ -167,13 +207,14 @@ public class Program
         if (!File.Exists(path))
         {
             Console.WriteLine($"El archivo {path} no se encuentra.");
-            return cadetes;
         }
 
         try
         {
             var lines = File.ReadAllLines(path);
-            foreach (var line in lines)
+
+            // Saltar la cabecera
+            foreach (var line in lines.Skip(1))
             {
                 var values = line.Split(',');
                 int id = int.Parse(values[0]);
@@ -191,15 +232,44 @@ public class Program
         return cadetes;
     }
 
-    static Cadeteria LeerCadeteriaDesdeCSV(string path, List<Cadete> cadetes)
+static Cadeteria LeerCadeteriaDesdeCSV(string path)
+{
+    if (!File.Exists(path))
     {
-        Cadeteria cadeteria = new Cadeteria("Nombre de Cadeteria", "Teléfono de Cadeteria");
-        foreach (var cadete in cadetes)
-        {
-            cadeteria.AgregarCadete(cadete);
-        }
-        return cadeteria;
+        Console.WriteLine($"El archivo {path} no se encuentra.");
+        return null;
     }
+
+    try
+    {
+        var lines = File.ReadAllLines(path);
+
+        // Asegúrate de que haya al menos una línea (la cabecera y la información real)
+        if (lines.Length < 2)
+        {
+            Console.WriteLine("El archivo no contiene datos suficientes.");
+            return null;
+        }
+
+        var values = lines[1].Split(',');
+        if (values.Length == 2)
+        {
+            string nombre = values[0];
+            string telefono = values[1];
+            return new Cadeteria(nombre, telefono); // Asegúrate de que Cadeteria tenga un constructor adecuado
+        }
+        else
+        {
+            Console.WriteLine("Formato de datos en el archivo no válido.");
+            return null;
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Se produjo una excepción al leer el archivo: {ex.Message}");
+        return null;
+    }
+}
 
     static void GuardarCadetesEnCSV(string path, List<Cadete> cadetes)
     {

@@ -16,6 +16,17 @@ public class Cadeteria
         listadoDePedidos = new List<Pedido>();
     }
 
+        public string VerNombre()
+    {
+        return nombre;
+    }
+
+    public string VerTelefono()
+    {
+        return telefono;
+    }
+
+
     public void AgregarCadete(Cadete cadete)
     {
         listadoDeCadetes.Add(cadete);
@@ -48,4 +59,6 @@ public class Cadeteria
         }
         return 0;
     }
+
+
 }
