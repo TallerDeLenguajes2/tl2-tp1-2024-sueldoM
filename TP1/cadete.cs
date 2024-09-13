@@ -1,9 +1,14 @@
 using System;
+using System.Text.Json.Serialization;
 public class Cadete
 {
+    [JsonInclude]
     private int id;
+    [JsonInclude]
     private string nombre;
+    [JsonInclude]
     private string direccion;
+    [JsonInclude]
     private string telefono;
 
     public Cadete(int id, string nombre, string direccion, string telefono)

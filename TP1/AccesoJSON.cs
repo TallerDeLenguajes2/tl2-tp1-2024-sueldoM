@@ -4,40 +4,75 @@ using System.Text.Json;
 
 public class AccesoJSON : AccesoADatos
 {
-    private string cadetePath;
-    private string cadeteriaPath;
+    private string cadetesJSONPath;
+    private string cadeteriaJSONPath;
 
-    public AccesoJSON(string cadetePath, string cadeteriaPath)
+    public AccesoJSON(string cadetesJSONPath, string cadeteriaJSONPath)
     {
-        this.cadetePath = cadetePath;
-        this.cadeteriaPath = cadeteriaPath;
+        this.cadetesJSONPath = cadetesJSONPath;
+        this.cadeteriaJSONPath = cadeteriaJSONPath;
     }
 
     public override List<Cadete> LeerCadetes()
     {
-        if (!File.Exists(cadetePath)) return new List<Cadete>();
+        if (!File.Exists(cadetesJSONPath))
+        {
+            Console.WriteLine($"El archivo {cadetesJSONPath} no se encuentra.");
+            return new List<Cadete>();
+        }
 
-        var json = File.ReadAllText(cadetePath);
-        return JsonSerializer.Deserialize<List<Cadete>>(json) ?? new List<Cadete>();
+
+            string json = File.ReadAllText(cadetesJSONPath);
+            var cadetes = JsonSerializer.Deserialize<List<Cadete>>(json);
+            return cadetes ?? new List<Cadete>();
     }
 
     public override Cadeteria LeerCadeteria()
     {
-        if (!File.Exists(cadeteriaPath)) return null;
+        if (!File.Exists(cadeteriaJSONPath))
+        {
+            Console.WriteLine($"El archivo {cadeteriaJSONPath} no se encuentra.");
+            return null;
+        }
 
-        var json = File.ReadAllText(cadeteriaPath);
-        return JsonSerializer.Deserialize<Cadeteria>(json);
+        try
+        {
+            string json = File.ReadAllText(cadeteriaJSONPath);
+            var cadeteria = JsonSerializer.Deserialize<Cadeteria>(json);
+            return cadeteria ?? new Cadeteria("Desconocido", "Sin teléfono");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al leer el archivo JSON: {ex.Message}");
+            return null;
+        }
     }
 
     public override void GuardarCadetes(List<Cadete> cadetes)
     {
-        var json = JsonSerializer.Serialize(cadetes, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(cadetePath, json);
+        try
+        {
+            string json = JsonSerializer.Serialize(cadetes);
+            File.WriteAllText(cadetesJSONPath, json);
+            Console.WriteLine("Cadetes guardados correctamente en JSON.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al guardar los cadetes en JSON: {ex.Message}");
+        }
     }
 
     public override void GuardarCadeteria(Cadeteria cadeteria)
     {
-        var json = JsonSerializer.Serialize(cadeteria, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(cadeteriaPath, json);
+        try
+        {
+            string json = JsonSerializer.Serialize(cadeteria);
+            File.WriteAllText(cadeteriaJSONPath, json);
+            Console.WriteLine("Cadetería guardada correctamente en JSON.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al guardar la cadetería en JSON: {ex.Message}");
+        }
     }
 }

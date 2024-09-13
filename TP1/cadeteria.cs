@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 public class Cadeteria
 {
+    [JsonInclude]
     private string nombre;
+    [JsonInclude]
     private string telefono;
     public List<Cadete> listadoDeCadetes;
     public List<Pedido> listadoDePedidos; // Nuevo listado para gestionar los pedidos

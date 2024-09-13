@@ -1,3 +1,4 @@
+using System.Text.Json;
 public abstract class AccesoADatos
 {
     public abstract List<Cadete> LeerCadetes();

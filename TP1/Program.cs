@@ -13,22 +13,8 @@ public class Program
         string cadetePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cadete.csv");
         string cadeteriaPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cadeteria.csv");
 
-
-        Console.WriteLine($"Ruta del archivo cadete.csv: {cadetePath}");
-        Console.WriteLine($"Ruta del archivo cadeteria.csv: {cadeteriaPath}");
-
-        if (!File.Exists(cadetePath))
-        {
-            Console.WriteLine($"El archivo {cadetePath} no existe. Verifique la ruta.");
-            return;
-        }
-
-        if (!File.Exists(cadeteriaPath))
-        {
-            Console.WriteLine($"El archivo {cadeteriaPath} no existe. Verifique la ruta.");
-            return;
-        }
-
+        string cadeteJSONPath = Path.Combine(Directory.GetCurrentDirectory(), "cadete.json");
+        string cadeteriaJSONPath = Path.Combine(Directory.GetCurrentDirectory(), "cadeteria.json");
 
         Console.WriteLine("Seleccione el tipo de acceso a datos:");
         Console.WriteLine("1. CSV");
@@ -37,15 +23,15 @@ public class Program
 
         switch (tipoAcceso)
         {
-            case "1":
-                accesoADatos = new AccesoCSV(cadetePath, cadeteriaPath);
-                break;
-            case "2":
-                accesoADatos = new AccesoJSON(cadetePath, cadeteriaPath);
-                break;
-            default:
-                Console.WriteLine("Opción no válida.");
-                return;
+        case "1":
+            accesoADatos = new AccesoCSV(cadetePath, cadeteriaPath);
+            break;
+        case "2":
+            accesoADatos = new AccesoJSON(cadeteJSONPath, cadeteriaJSONPath);
+            break;
+        default:
+            Console.WriteLine("Opción no válida.");
+            return;
         }
 
         // Cargar datos desde los archivos CSV
@@ -183,9 +169,7 @@ public class Program
                         break;
 
                     case 6:
-                        Console.WriteLine("Guardando datos y saliendo...");
-                        GuardarCadetesEnCSV(cadetePath, cadetes);
-                        GuardarCadeteriaEnCSV(cadeteriaPath, cadeteria);
+                        Console.WriteLine("Saliendo...");
                         return;
                     case 7:
                         Console.WriteLine("Lista de cadetes:");
@@ -289,24 +273,4 @@ static Cadeteria LeerCadeteriaDesdeCSV(string path)
     }
 }
 
-static void GuardarCadetesEnCSV(string path, List<Cadete> cadetes)
-{
-    List<string> lines = new List<string>();
-
-    // Agregar la cabecera de nuevo
-    lines.Add("Id,Nombre,Direccion,Telefono");
-
-    // Agregar los datos de los cadetes
-    foreach (var cadete in cadetes)
-    {
-        lines.Add($"{cadete.VerId()},{cadete.VerNombre()},{cadete.VerDireccion()},{cadete.VerTelefono()}");
-    }
-
-    // Sobrescribir el archivo con la cabecera y los datos
-    File.WriteAllLines(path, lines);
-    }
-    static void GuardarCadeteriaEnCSV(string path, Cadeteria cadeteria)
-    {
-        // Para guardar la cadeteria, puedes extender este método según las necesidades específicas.
-    }
 }
