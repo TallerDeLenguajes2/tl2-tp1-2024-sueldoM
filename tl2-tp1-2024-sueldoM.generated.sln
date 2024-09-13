@@ -5,6 +5,10 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TP1", "TP1\TP1.csproj", "{54483FD7-F648-46A3-B163-A2F0ABD4B9FC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TP1", "TP1", "{CD1FFB1C-602F-4349-8B96-2400FDD3395D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CadeteriaLibrary", "TP1\CadeteriaLibrary\CadeteriaLibrary.csproj", "{FED3CC21-187C-431B-8661-173DF4DBF81D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,11 +19,19 @@ Global
 		{54483FD7-F648-46A3-B163-A2F0ABD4B9FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54483FD7-F648-46A3-B163-A2F0ABD4B9FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54483FD7-F648-46A3-B163-A2F0ABD4B9FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FED3CC21-187C-431B-8661-173DF4DBF81D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FED3CC21-187C-431B-8661-173DF4DBF81D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FED3CC21-187C-431B-8661-173DF4DBF81D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FED3CC21-187C-431B-8661-173DF4DBF81D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EBE5F9A5-26EA-4E9E-9DD2-FAF5CFA77A63}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{54483FD7-F648-46A3-B163-A2F0ABD4B9FC} = {CD1FFB1C-602F-4349-8B96-2400FDD3395D}
+		{FED3CC21-187C-431B-8661-173DF4DBF81D} = {CD1FFB1C-602F-4349-8B96-2400FDD3395D}
 	EndGlobalSection
 EndGlobal
