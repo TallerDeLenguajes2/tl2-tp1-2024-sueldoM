@@ -19,7 +19,7 @@ public class Cadeteria
         listadoDePedidos = new List<Pedido>();
     }
 
-        public string VerNombre()
+    public string VerNombre()
     {
         return nombre;
     }
