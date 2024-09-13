@@ -52,8 +52,8 @@ public class Program
             Console.WriteLine("4. Reasignar pedido a otro Cadete");
             Console.WriteLine("5. Calcular jornal a cobrar");
             Console.WriteLine("6. Guardar y Salir");
-            Console.WriteLine("7. Mostrar Cadetes.csv");
-            Console.WriteLine("8. Mostrar Cadeteria.csv");
+            Console.WriteLine("7. Mostrar Cadetes");
+            Console.WriteLine("8. Mostrar Cadeteria");
 
             string? input = Console.ReadLine();
 
