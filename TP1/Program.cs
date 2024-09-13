@@ -9,8 +9,26 @@ public class Program
     static void Main(string[] args)
     {
         // Configura la ruta de los archivos CSV
-        string cadetePath = Path.Combine(Directory.GetCurrentDirectory(), "cadete.csv");
-        string cadeteriaPath = Path.Combine(Directory.GetCurrentDirectory(), "cadeteria.csv");
+        string currentDirectory = Directory.GetCurrentDirectory();
+        string cadetePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cadete.csv");
+        string cadeteriaPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cadeteria.csv");
+
+
+        Console.WriteLine($"Ruta del archivo cadete.csv: {cadetePath}");
+        Console.WriteLine($"Ruta del archivo cadeteria.csv: {cadeteriaPath}");
+
+        if (!File.Exists(cadetePath))
+        {
+            Console.WriteLine($"El archivo {cadetePath} no existe. Verifique la ruta.");
+            return;
+        }
+
+        if (!File.Exists(cadeteriaPath))
+        {
+            Console.WriteLine($"El archivo {cadeteriaPath} no existe. Verifique la ruta.");
+            return;
+        }
+
 
         Console.WriteLine("Seleccione el tipo de acceso a datos:");
         Console.WriteLine("1. CSV");
@@ -271,18 +289,22 @@ static Cadeteria LeerCadeteriaDesdeCSV(string path)
     }
 }
 
-    static void GuardarCadetesEnCSV(string path, List<Cadete> cadetes)
+static void GuardarCadetesEnCSV(string path, List<Cadete> cadetes)
+{
+    List<string> lines = new List<string>();
+
+    // Agregar la cabecera de nuevo
+    lines.Add("Id,Nombre,Direccion,Telefono");
+
+    // Agregar los datos de los cadetes
+    foreach (var cadete in cadetes)
     {
-        List<string> lines = new List<string>();
-
-        foreach (var cadete in cadetes)
-        {
-            lines.Add($"{cadete.VerId()},{cadete.VerNombre()},{cadete.VerDireccion()},{cadete.VerTelefono()}");
-        }
-
-        File.WriteAllLines(path, lines);
+        lines.Add($"{cadete.VerId()},{cadete.VerNombre()},{cadete.VerDireccion()},{cadete.VerTelefono()}");
     }
 
+    // Sobrescribir el archivo con la cabecera y los datos
+    File.WriteAllLines(path, lines);
+    }
     static void GuardarCadeteriaEnCSV(string path, Cadeteria cadeteria)
     {
         // Para guardar la cadeteria, puedes extender este método según las necesidades específicas.
